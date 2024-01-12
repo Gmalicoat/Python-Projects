@@ -1,0 +1,172 @@
+'''
+Program Name: HiLo.py
+Date: 3 Jun 2023
+Author: GD Malicoat
+Description: This program takes a list of float, int, and strings
+and puts them into a list and sorts them.
+'''
+import random
+
+
+def menu():
+    '''
+    Function Name: menu
+    Date: 3 Jun 2023
+    Author: GD Malicoat
+    Description: This function displays the menu.
+    returns: None
+    args: None
+    '''
+    print(30 * '-')
+    print("   G A M E - M E N U")
+    print(30 * '-')
+    print("2. Instructions")
+    print("1. Start Game")
+    print("0. Exit Game")
+    print(30 * '-')
+
+
+'''End of function menu()'''
+
+
+def getchoice():
+    '''
+    Function Name: getchoice
+    Date: 3 Jun 2023
+    Author: GD Malicoat
+    Description: this function gets the choice of the user.
+    returns: None
+    args: None
+    '''
+    print('Please select an option.')
+    userchoice = int(input('> '))
+    return userchoice
+
+
+'''End of function getchoice()'''
+
+
+def application():
+    '''
+    Function Name: application
+    Date: 3 Jun 2023
+    Author: GD Malicoat
+    Description: this function interprets the choice of the user.
+    returns: None
+    args: None
+    '''
+    gamelog = open('gamelog.txt', mode='w')
+    gamelog.close()
+    while (True):
+        menu()
+        try:
+            choice = getchoice()
+            if (choice >= 0 and choice <= 2):
+                if (choice == 0):
+                    print('Exiting Application...')
+                    exit()
+                elif (choice == 1):
+                    print('Start Application...')
+                    gameengine = HiLo(int(random.random() * 100))
+                    gameengine.startgame()
+                    print('adding guess count')
+                    gamelog = open("gamelog.txt", mode="a")
+                    gamelog.write(
+                        str(f'Guess count = {gameengine.guesscount}'))
+                    gamelog.close()
+                elif (choice == 2):
+                    print("The game will pick a random number.")
+                    print("The user will guess what the number is.")
+                    print(
+                        "If the number is lower than the random number the game will say lower.")
+                    print(
+                        "If the number is higher than the random number the game will say higher")
+        except ValueError:
+            print("ERROR: You did not enter a number.")
+    '''end of application()'''
+
+
+class HiLo:
+    '''
+    gamenumber and guesscount are the class
+    properties, or instance variables.
+    __str__(self), __init__(self, gamenumber), startgame(self)
+    are the instance methods. If no parameters
+    are needed, the 'self' keyword is required.
+    '''
+
+    def __init__(self, gamenumber):
+        '''
+        Method Name: __init__
+        Date: 3 Jun 2023
+        Author: GD Malicoat
+        Description: This method is the constructor of the
+        class, its
+        purpose is to initialize the properties of the
+        instantiated class (object).
+        Args: none
+        Returns: none
+        '''
+        self.gamenumber = gamenumber
+        self.guesscount = 1
+    '''End of __init__()'''
+
+    def __str__(self):
+        '''
+        Method Name: __str__
+        Date: 3 Jun 2023
+        Author: GD Malicoat
+        Description: This method returns multiple values
+        often used as a debugger
+        Args: none
+        Returns: string
+        '''
+        return f"gamenumber = {self.gamenumber}"
+    '''End of __str__()'''
+
+    def startgame(self):
+        '''
+        Method Name: startgame
+        Date: 3 Jun 2023
+        Author: GD Malicoat
+        Description: This interprets the game rules and writes the guesses on the game log.
+        Args: none
+        Returns: none
+        '''
+        while (True):
+            print('Please input your guess [0 - 100]')
+            try:
+                userguess = int(input('> '))
+                if (userguess >= 0 and userguess <= 100):
+                    if (userguess > self.gamenumber):
+                        print("Lower")
+                        self.guesscount += 1
+                        print('adding guess')
+                        gamelog1 = open('gamelog.txt', mode='a')
+                        gamelog1.write(str(userguess))
+                        gamelog1.write('\n')
+                        gamelog1.close()
+                    elif (userguess < self.gamenumber):
+                        print("Higher")
+                        self.guesscount += 1
+                        print('adding guess')
+                        gamelog1 = open('gamelog.txt', mode='a')
+                        gamelog1.write(str(userguess))
+                        gamelog1.write('\n')
+                        gamelog1.close()
+                    elif (userguess == self.gamenumber):
+                        print("Victory!!!!")
+                        print('adding guess')
+                        gamelog1 = open('gamelog.txt', mode='a')
+                        gamelog1.write(str(userguess))
+                        gamelog1.write('\n')
+                        gamelog1.close()
+                        break
+                else:
+                    print('The number you selected is not between 0 and 100.')
+            except ValueError:
+                print('You did not input an integer...')
+
+
+'''This is the end of startgame()'''
+application()
