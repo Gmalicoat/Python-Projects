@@ -1,0 +1,57 @@
+import tkinter as tk
+import time
+import pyautogui
+import random
+
+
+class App(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("The Spammer V2")
+        self.geometry("300x150")
+
+        # Store user input
+        self.iterations = tk.StringVar()
+        self.iteration_label = tk.Label(self, text="Iterations:")
+        self.message_1 = tk.StringVar()
+        self.message_2 = tk.StringVar()
+        self.message_3 = tk.StringVar()
+        self.message_1_label = tk.Label(self, text="Message #1:")
+        self.message_2_label = tk.Label(self, text="Message #2:")
+        self.message_3_label = tk.Label(self, text="Message #3:")
+
+        # Widgets for user input
+        self.input_iterations = tk.Entry(self, textvariable=self.iterations)
+        self.message_1entry = tk.Entry(self, textvariable=self.message_1)
+        self.message_2entry = tk.Entry(self, textvariable=self.message_2)
+        self.message_3entry = tk.Entry(self, textvariable=self.message_3)
+        self.print_button = tk.Button(self, text="Get to spammin!", command=self.execute)
+        
+        # Widget placement
+        self.input_iterations.place(x=70, y=75)
+        self.message_1entry.place(x=70, y=0)
+        self.message_2entry.place(x=70, y=25)
+        self.message_3entry.place(x=70, y=50)
+        self.print_button.place(x=35, y=100)
+        self.iteration_label.place(x=5, y=75)
+        self.message_1_label.place(x=0, y=0)
+        self.message_2_label.place(x=0, y=25)
+        self.message_3_label.place(x=0, y=50)
+
+    def execute(self):
+        repeat = int(self.iterations.get())
+        time.sleep(5)
+        for number in range(repeat):
+            response_choice = int(random.random() * 3)
+            if (response_choice == 0):
+                pyautogui.typewrite(self.message_1.get())
+            elif (response_choice == 1):
+                pyautogui.typewrite(self.message_2.get())
+            elif (response_choice == 2):
+                pyautogui.typewrite(self.message_3.get())
+            time.sleep(0.2)
+            pyautogui.press("enter")
+
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()
